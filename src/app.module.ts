@@ -14,12 +14,12 @@ import { ItemsController } from './items/items.controller';
 import { ItemsService } from './items/items.service';
 import { ItemsModule } from './items/items.module';
 import { TypesModule } from './types/types.module';
+import {Brand} from './brands/brands.model';
 
 @Module({
   controllers: [ItemsController],
   providers: [AppService, ItemsService],
   imports: [
-      Logger,
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
@@ -30,7 +30,8 @@ import { TypesModule } from './types/types.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Role, UserRoles],
+      // models: [User, Role, UserRoles],
+      models: [User, Role, UserRoles, Brand],
       autoLoadModels: true,
     }),
     UsersModule,
