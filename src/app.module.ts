@@ -15,11 +15,18 @@ import { ItemsService } from './items/items.service';
 import { ItemsModule } from './items/items.module';
 import { TypesModule } from './types/types.module';
 import {Brand} from './brands/brands.model';
+import {ThrottlerModule} from '@nestjs/throttler';
+
 
 @Module({
   controllers: [ItemsController],
   providers: [AppService, ItemsService],
   imports: [
+      ThrottlerModule.forRoot([{
+        ttl: 60000,
+        limit: 5,
+        name: "brands"
+      }]),
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
     }),

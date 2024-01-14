@@ -3,12 +3,14 @@ import {CreateBrandDto} from './dto/create-brand.dto';
 import {BrandsService} from './brands.service';
 import {ApiOperation, ApiResponse} from '@nestjs/swagger';
 import {Brand} from './brands.model';
+import {Throttle} from '@nestjs/throttler';
 
 @Controller('brands')
 export class BrandsController {
 
     constructor(private brandsService: BrandsService) {}
 
+    @Throttle({ default: { limit: 3, ttl: 60000 }})
     @ApiOperation({summary: 'Create brand'})
     @ApiResponse({status: 201, type: Brand})
     @Post()
@@ -16,8 +18,10 @@ export class BrandsController {
         return this.brandsService.create(brandDto)
     }
 
+    // @Throttle({default: {})
     @ApiOperation({summary: 'Get all brands'})
     @ApiResponse({status: 200, type: [Brand]})
+    @Throttle({ default: { limit: 3, ttl: 60000 }})
     @Get()
     getAll() {
         return this.brandsService.getAll()

@@ -1,25 +1,36 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import {CreateBrandDto} from './dto/create-brand.dto';
 import {InjectModel} from '@nestjs/sequelize';
 import {Brand} from './brands.model';
+import {ValidationException} from '../exceptions/validation.exception';
+import {timestamp} from 'rxjs';
 
 @Injectable()
 export class BrandsService {
+    private readonly logger = new Logger(BrandsService.name)
+
     constructor(@InjectModel(Brand) private brandRepository: typeof Brand) {}
 
-    async create(dto: CreateBrandDto) {
+    public async create(dto: CreateBrandDto) {
+        const brand = await this.brandRepository.findOne({rejectOnEmpty: undefined, where: {brand: dto.brand}})
+        this.logger.log(timestamp(), brand)
+
+        if (brand) {
+            throw new ValidationException('User already exist')
+        }
+
         return await this.brandRepository.create(dto);
     }
 
-    async getAll() {
+    public async getAll() {
         return await this.brandRepository.findAll()
     }
 
-    async getOne(id: number) {
+    public async getOne(id: number) {
         return await this.brandRepository.findOne({rejectOnEmpty: undefined, where: {id}})
     }
 
-    async delete(id: number) {
+    public async delete(id: number) {
         return await this.brandRepository.destroy({where: {id}})
     }
 }
