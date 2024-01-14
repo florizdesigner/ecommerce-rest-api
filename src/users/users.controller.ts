@@ -9,9 +9,6 @@ import { AddRoleDto } from './dto/add-role.dto';
 import { BanUserDto } from './dto/ban-user.dto';
 // import {ValidationPipe} from '../pipes/validation.pipe'; // если юзать кастомный pipes > validation.pipe.ts
 
-export interface Logger {
-  log(message: string): void;
-}
 
 @ApiTags('Users')
 @Controller('users')
