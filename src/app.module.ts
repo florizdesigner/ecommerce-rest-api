@@ -16,6 +16,8 @@ import { ItemsModule } from './items/items.module';
 import { TypesModule } from './types/types.module';
 import {Brand} from './brands/brands.model';
 import {ThrottlerModule} from '@nestjs/throttler';
+import {Type} from './types/types.model';
+import {BrandTypes} from './types/brand-types.model';
 
 
 @Module({
@@ -38,7 +40,7 @@ import {ThrottlerModule} from '@nestjs/throttler';
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
       // models: [User, Role, UserRoles],
-      models: [User, Role, UserRoles, Brand],
+      models: [User, Role, UserRoles, Brand, Type, BrandTypes],
       autoLoadModels: true,
     }),
     UsersModule,
