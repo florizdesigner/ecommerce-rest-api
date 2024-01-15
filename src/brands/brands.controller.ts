@@ -7,7 +7,6 @@ import {Throttle} from '@nestjs/throttler';
 
 @Controller('brands')
 export class BrandsController {
-
     constructor(private brandsService: BrandsService) {}
 
     @Throttle({ default: { limit: 3, ttl: 60000 }})
@@ -18,7 +17,6 @@ export class BrandsController {
         return this.brandsService.create(brandDto)
     }
 
-    // @Throttle({default: {})
     @ApiOperation({summary: 'Get all brands'})
     @ApiResponse({status: 200, type: [Brand]})
     @Throttle({ default: { limit: 3, ttl: 60000 }})
@@ -35,7 +33,7 @@ export class BrandsController {
     }
 
     @ApiOperation({summary: 'Delete brand'})
-    @ApiResponse({status: 200, type: Brand})
+    @ApiResponse({status: 200, type: Number, description: '1 = Successfully deleted; 0 = Nothing delete'})
     @Delete('/:id')
     delete(@Param('id') id: number) {
         return this.brandsService.delete(id)
